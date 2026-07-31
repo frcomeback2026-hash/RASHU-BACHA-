@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy Girlfriend's Day — Petal &amp; Ink</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Caveat:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --wine:#5C1A2B;
+    --rose:#8C2F49;
+    --rose-soft:#E7A9BB;
+    --blush:#FBE7ED;
+    --peach:#F6D9C9;
+    --paper:#FFF9F2;
+    --gold:#C99A4A;
+    --muted:#8A5061;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:linear-gradient(180deg,var(--blush) 0%,var(--peach) 100%);color:var(--wine);min-height:100vh;position:relative;overflow-x:hidden;}
+  .font-display{font-family:'Playfair Display',serif;}
+  .font-script{font-family:'Caveat',cursive;}
+  button{font-family:inherit;}
+  a{color:inherit;}
+
+  /* floating hearts */
+  .hearts-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+  .heart-particle{position:absolute;bottom:-40px;color:var(--rose-soft);opacity:.55;animation-name:floatUp;animation-timing-function:linear;animation-iteration-count:infinite;}
+  @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.55;}100%{transform:translateY(-640px) rotate(25deg);opacity:0;}}
+
+  @keyframes unfold{from{transform:scaleY(.06);opacity:0;}to{transform:scaleY(1);opacity:1;}}
+  .unfold{animation:unfold .5s ease-out;transform-origin:top center;}
+
+  .page{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:48px 24px 80px;}
+  .topbar{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);}
+  .hero-copy{text-align:center;margin:18px 0 44px;}
+  .hero-copy h1{font-size:clamp(32px,5vw,46px);margin:0 0 12px;}
+  .hero-copy p{color:var(--muted);max-width:480px;margin:0 auto;font-size:15px;}
+
+  .layout{display:grid;grid-template-columns:1fr;gap:32px;align-items:start;}
+  @media(min-width:860px){.layout{grid-template-columns:1fr 1fr;}}
+
+  .editor-card{background:rgba(255,255,255,.55);backdrop-filter:blur(6px);border:1px solid rgba(156,75,99,.15);border-radius:24px;padding:28px;}
+  .field-label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);margin:0 0 8px;}
+  .field-group{margin-bottom:22px;}
+  .text-input,.text-area{width:100%;border:1px solid rgba(156,75,99,.25);background:#FFFDFB;color:var(--wine);border-radius:12px;padding:11px 14px;font-size:14px;outline:2px solid transparent;outline-offset:2px;transition:outline-color .15s ease;font-family:inherit;}
+  .text-input:focus,.text-area:focus,.upload-btn:focus,.primary-btn:focus,.thumb-remove:focus,.close-btn:focus{outline-color:var(--rose);}
+  .text-area{resize:vertical;min-height:130px;}
+  .hint{font-size:12px;color:var(--muted);margin:6px 0 0;}
+
+  .upload-btn{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed rgba(156,75,99,.4);background:transparent;color:var(--rose);border-radius:12px;padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;}
+  .upload-btn:hover{background:rgba(140,47,73,.06);}
+  .thumb-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
+  .thumb{position:relative;width:64px;height:64px;border-radius:12px;overflow:hidden;border:1px solid rgba(156,75,99,.2);}
+  .thumb img,.thumb video{width:100%;height:100%;object-fit:cover;}
+  .thumb-remove{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--rose);color:var(--paper);border:none;font-size:11px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+
+  .primary-btn{margin-top:6px;width:100%;border:none;border-radius:999px;padding:13px;font-size:15px;font-weight:600;background:var(--rose);color:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .primary-btn:hover{background:var(--wine);}
+
+  .preview-card{background:var(--paper);border-radius:20px;padding:32px;min-height:420px;display:flex;flex-direction:column;box-shadow:0 20px 50px -20px rgba(92,26,43,.35);border:1px solid rgba(156,75,99,.12);}
+  .preview-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  .pill{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#B98BA0;}
+  .sparkle{color:var(--gold);}
+  .preview-card h2{margin:0 0 16px;font-size:26px;}
+  .letter-text{color:#6B4453;line-height:1.7;white-space:pre-wrap;flex:1;font-size:15px;margin:0;}
+  .script-sign{font-family:'Caveat',cursive;font-size:26px;color:var(--rose);margin:18px 0 0;}
+
+  .gallery{position:relative;width:100%;aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:#F3E2E7;margin-bottom:18px;}
+  .gallery-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;text-align:center;padding:16px;}
+  .media-item{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease;}
+  .media-item.active{opacity:1;}
+
+  /* full page reveal */
+  .fullpage{position:fixed;inset:0;z-index:50;background:linear-gradient(180deg,#3B0F1D,#5C1A2B);display:flex;align-items:center;justify-content:center;padding:32px 20px;overflow-y:auto;}
+  .fullpage[hidden]{display:none;}
+  .close-btn{position:fixed;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);color:var(--paper);border:none;font-size:16px;cursor:pointer;z-index:51;}
+  .close-btn:hover{background:rgba(255,255,255,.25);}
+  .fp-content{max-width:480px;width:100%;text-align:center;margin:24px 0;}
+  .fp-pill{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 8px;}
+  .fp-name{font-size:clamp(28px,5vw,40px);color:var(--paper);margin:0 0 20px;}
+  .fp-gallery{position:relative;width:100%;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.08);box-shadow:0 20px 60px -20px rgba(0,0,0,.6);margin-bottom:22px;}
+  .fp-message{color:var(--blush);line-height:1.8;white-space:pre-wrap;font-size:16px;margin:0;}
+  .fp-sign{font-family:'Caveat',cursive;font-size:30px;color:var(--gold);margin:20px 0 0;}
+
+  .confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:60;}
+  .confetti-piece{position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;transform:translate(-50%,-50%);animation:confettiBurst 1s ease-out forwards;}
+  @keyframes confettiBurst{to{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty)));opacity:0;}}
+
+  @media (prefers-reduced-motion: reduce){
+    .heart-particle{animation:none !important;opacity:.12 !important;}
+    .unfold{animation:none !important;}
+    .media-item{transition:none !important;}
+    .confetti-piece{animation:none !important;display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="hearts-layer" id="heartsLayer" aria-hidden="true"></div>
+
+  <div class="page">
+    <div class="topbar">♥ Petal &amp; Ink</div>
+    <div class="hero-copy">
+      <h1 class="font-display">Happy Girlfriend's Day</h1>
+      <p>Write a few lines, add some photos or a video, and watch the page come together on the right.</p>
+    </div>
+
+    <div class="layout">
+      <form class="editor-card" id="editorForm">
+        <div class="field-group">
+          <label class="field-label" for="nameInput">Her name</label>
+          <input class="text-input" id="nameInput" type="text" placeholder="e.g. Maya" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="messageInput">Your letter</label>
+          <textarea class="text-area" id="messageInput" placeholder="Start writing..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Photos</label>
+          <input type="file" id="photoInput" accept="image/*" multiple hidden />
+          <button type="button" class="upload-btn" data-target="photoInput">+ Add photos</button>
+          <div class="thumb-row" id="photoThumbs"></div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Video (optional)</label>
+          <input type="file" id="videoInput" accept="video/*" multiple hidden />
+          <button type="button" class="upload-btn" data-target="videoInput">+ Add video</button>
+          <div class="thumb-row" id="videoThumbs"></div>
+          <p class="hint">Photos and videos stay in your browser for this preview — nothing is uploaded anywhere.</p>
+        </div>
+        <button type="button" class="primary-btn" id="previewFullBtn">✨ Preview full page</button>
+      </form>
+
+      <div class="preview-card unfold" id="previewCard">
+        <div class="preview-top">
+          <span class="pill">Girlfriend's Day</span>
+          <span class="sparkle">✦</span>
+        </div>
+        <h2 class="font-display" id="previewName">For someone</h2>
+        <div class="gallery" id="previewGallery">
+          <div class="gallery-empty">Add photos or a video to see them here</div>
+        </div>
+        <p class="letter-text" id="previewMessage">Your words will show up here as you type them.</p>
+        <p class="script-sign">with love</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fullpage" id="fullPageView" hidden>
+    <button class="close-btn" id="closeFullBtn" aria-label="Back to editor">✕</button>
+    <div class="fp-content unfold" id="fpContent">
+      <p class="fp-pill">Happy</p>
+      <h1 class="fp-name font-display" id="fpName">Girlfriend's Day</h1>
+      <div class="fp-gallery" id="fpGallery">
+        <div class="gallery-empty">Add photos or a video to see them here</div>
+      </div>
+      <p class="fp-message" id="fpMessage"></p>
+      <p class="fp-sign">with love</p>
+    </div>
+    <div class="confetti-layer" id="confettiLayer"></div>
+  </div>
+
+<script>
+  // ---------- floating hearts ----------
+  function spawnHearts(){
+    const layer = document.getElementById('heartsLayer');
+    for(let i=0;i<12;i++){
+      const h = document.createElement('span');
+      h.className = 'heart-particle';
+      h.textContent = '♥';
+      h.style.left = (Math.random()*100)+'%';
+      h.style.fontSize = (12+Math.random()*14)+'px';
+      h.style.animationDuration = (9+Math.random()*6)+'s';
+      h.style.animationDelay = (Math.random()*8)+'s';
+      layer.appendChild(h);
+    }
+  }
+  spawnHearts();
+
+  // ---------- state ----------
+  let photos = [];   // {id, url}
+  let videos = [];   // {id, url}
+  let mediaItems = [];
+  let carouselIndex = 0;
+  let carouselTimer = null;
+
+  const nameInput = document.getElementById('nameInput');
+  const messageInput = document.getElementById('messageInput');
+  const photoInput = document.getElementById('photoInput');
+  const videoInput = document.getElementById('videoInput');
+  const photoThumbs = document.getElementById('photoThumbs');
+  const videoThumbs = document.getElementById('videoThumbs');
+  const previewName = document.getElementById('previewName');
+  const previewMessage = document.getElementById('previewMessage');
+  const previewGallery = document.getElementById('previewGallery');
+  const fpGallery = document.getElementById('fpGallery');
+  const fpName = document.getElementById('fpName');
+  const fpMessage = document.getElementById('fpMessage');
+  const fullPageView = document.getElementById('fullPageView');
+
+  // ---------- text sync ----------
+  nameInput.addEventListener('input', () => {
+    const val = nameInput.value.trim();
+    previewName.textContent = val ? `For ${val}` : 'For someone';
+    fpName.textContent = val ? `Happy Girlfriend's Day, ${val}` : "Girlfriend's Day";
+  });
+  messageInput.addEventListener('input', () => {
+    const val = messageInput.value;
+    previewMessage.textContent = val || 'Your words will show up here as you type them.';
+    fpMessage.textContent = val;
+  });
+
+  // ---------- uploads ----------
+  document.querySelectorAll('.upload-btn').forEach(btn => {
+    btn.addEventListener('click', () => document.getElementById(btn.dataset.target).click());
+  });
+
+  photoInput.addEventListener('change', e => {
+    Array.from(e.target.files).forEach(file => {
+      photos.push({ id: Math.random().toString(36).slice(2,9), url: URL.createObjectURL(file) });
+    });
+    e.target.value = '';
+    renderThumbs();
+    renderGallery();
+  });
+
+  videoInput.addEventListener('change', e => {
+    Array.from(e.target.files).forEach(file => {
+      videos.push({ id: Math.random().toString(36).slice(2,9), url: URL.createObjectURL(file) });
+    });
+    e.target.value = '';
+    renderThumbs();
+    renderGallery();
+  });
+
+  function removeItem(id, arr){
+    const idx = arr.findIndex(i => i.id === id);
+    if(idx > -1){
+      URL.revokeObjectURL(arr[idx].url);
+      arr.splice(idx,1);
+    }
+    renderThumbs();
+    renderGallery();
+  }
+
+  function renderThumbs(){
+    photoThumbs.innerHTML = '';
+    photos.forEach(p => {
+      const wrap = document.createElement('div');
+      wrap.className = 'thumb';
+      const img = document.createElement('img');
+      img.src = p.url; img.alt = 'Uploaded photo';
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'thumb-remove'; btn.setAttribute('aria-label','Remove photo'); btn.textContent = '✕';
+      btn.onclick = () => removeItem(p.id, photos);
+      wrap.appendChild(img); wrap.appendChild(btn);
+      photoThumbs.appendChild(wrap);
+    });
+    videoThumbs.innerHTML = '';
+    videos.forEach(v => {
+      const wrap = document.createElement('div');
+      wrap.className = 'thumb';
+      const vid = document.createElement('video');
+      vid.src = v.url; vid.muted = true;
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'thumb-remove'; btn.setAttribute('aria-label','Remove video'); btn.textContent = '✕';
+      btn.onclick = () => removeItem(v.id, videos);
+      wrap.appendChild(vid); wrap.appendChild(btn);
+      videoThumbs.appendChild(wrap);
+    });
+  }
+
+  // ---------- gallery / carousel ----------
+  function renderGallery(){
+    mediaItems = [
+      ...photos.map(p => ({ type:'image', url:p.url })),
+      ...videos.map(v => ({ type:'video', url:v.url })),
+    ];
+    renderGalleryInto(previewGallery, mediaItems);
+    renderGalleryInto(fpGallery, mediaItems);
+    restartCarousel();
+  }
+
+  function renderGalleryInto(container, items){
+    container.innerHTML = '';
+    if(items.length === 0){
+      const empty = document.createElement('div');
+      empty.className = 'gallery-empty';
+      empty.textContent = 'Add photos or a video to see them here';
+      container.appendChild(empty);
+      return;
+    }
+    items.forEach((item, i) => {
+      let el;
+      if(item.type === 'image'){
+        el = document.createElement('img');
+        el.src = item.url; el.alt = 'Uploaded photo';
+      } else {
+        el = document.createElement('video');
+        el.src = item.url; el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = true;
+      }
+      el.className = 'media-item' + (i === 0 ? ' active' : '');
+      container.appendChild(el);
+    });
+  }
+
+  function advanceCarousel(){
+    [previewGallery, fpGallery].forEach(c => {
+      const items = c.querySelectorAll('.media-item');
+      if(items.length === 0) return;
+      items.forEach(it => it.classList.remove('active'));
+      items[carouselIndex % items.length].classList.add('active');
+    });
+  }
+
+  function restartCarousel(){
+    clearInterval(carouselTimer);
+    carouselIndex = 0;
+    if(mediaItems.length <= 1) return;
+    carouselTimer = setInterval(() => {
+      carouselIndex++;
+      advanceCarousel();
+    }, 3500);
+  }
+
+  // ---------- full page reveal ----------
+  document.getElementById('previewFullBtn').addEventListener('click', () => {
+    fullPageView.hidden = false;
+    document.body.style.overflow = 'hidden';
+    burstConfetti();
+  });
+  document.getElementById('closeFullBtn').addEventListener('click', () => {
+    fullPageView.hidden = true;
+    document.body.style.overflow = '';
+  });
+
+  function burstConfetti(){
+    const layer = document.getElementById('confettiLayer');
+    layer.innerHTML = '';
+    const colors = ['#8C2F49','#C99A4A','#E7A9BB','#FBE7ED'];
+    for(let i=0;i<26;i++){
+      const p = document.createElement('span');
+      p.className = 'confetti-piece';
+      const angle = Math.random()*2*Math.PI;
+      const dist = 120 + Math.random()*180;
+      p.style.setProperty('--tx', Math.cos(angle)*dist+'px');
+      p.style.setProperty('--ty', Math.sin(angle)*dist+'px');
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      p.style.animationDelay = (Math.random()*0.15)+'s';
+      layer.appendChild(p);
+    }
+    setTimeout(() => { layer.innerHTML = ''; }, 1500);
+  }
+</script>
+</body>
+</html>
